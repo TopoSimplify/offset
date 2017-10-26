@@ -1,24 +1,25 @@
 package offset
 
 import (
-	"simplex/lnr"
 	"simplex/rng"
 	"github.com/intdxdt/vect"
+	"github.com/intdxdt/geom"
 )
 
 //computes Synchronized Euclidean Distance
-func MaxSEDOffset(polyline lnr.Linear, rng *rng.Range) (int, float64) {
+func MaxSEDOffset(coordinates []*geom.Point, rng *rng.Range) (int, float64) {
 	var t = 2
-	var pln = polyline.Coordinates()
 	var index, offset = rng.J(), 0.0
-	var a, b = pln[rng.I()], pln[rng.J()]
+	var a, b = coordinates[rng.I()], coordinates[rng.J()]
 	var opts = &vect.Options{A: a, B: b, At: &a[t], Bt: &b[t]}
-	var segvect = vect.NewVect(opts)
+	var segVect = vect.NewVect(opts)
+	var sedVect *vect.Vect
+	var dist float64
 
 	if rng.Size() > 1 {
 		for _, k := range rng.ExclusiveStride(1) {
-			sedvect := segvect.SEDVector(pln[k], pln[k][t])
-			dist := sedvect.Magnitude()
+			sedVect = segVect.SEDVector(coordinates[k], coordinates[k][t])
+			dist = sedVect.Magnitude()
 			if dist >= offset {
 				index, offset = k, dist
 			}
