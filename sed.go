@@ -20,7 +20,8 @@ func MaxSEDOffset(coordinates []*geom.Point) (int, float64) {
 
 	var pt *geom.Point
 	var vec = vect.NewVect(opts)
-	for k := 0; k <= n; k++ {
+
+	for k := 1; k < n; k++ {//exclusive range between 0 < k < n
 		pt = coordinates[k]
 		dist = vec.SEDVector(pt, pt[geom.Z]).Magnitude()
 		if dist >= offset {

@@ -16,7 +16,7 @@ func MaxOffset(coordinates []*geom.Point) (int, float64) {
 
 	var dist float64
 	var seg = geom.NewSegment(coordinates[0], coordinates[n])
-	for k := 0; k <= n; k++ {
+	for k := 1; k < n; k++ { //exclusive range between 0 < k < n
 		dist = seg.DistanceToPoint(coordinates[k])
 		if dist >= offset {
 			index, offset = k, dist
