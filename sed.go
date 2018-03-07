@@ -1,10 +1,10 @@
 package offset
 
 import (
+	"math"
 	"github.com/intdxdt/vect"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/cart"
-	"github.com/intdxdt/math"
 )
 
 //@formatter:off
