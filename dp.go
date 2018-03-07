@@ -15,12 +15,9 @@ func MaxOffset(coordinates []*geom.Point) (int, float64) {
 	}
 
 	var dist float64
+	var a, b = coordinates[0], coordinates[n]
 	for k := 1; k < n; k++ { //exclusive range between 0 < k < n
-		dist = geom.DistanceToPoint(
-			coordinates[0],
-			coordinates[n],
-			coordinates[k],
-		)
+		dist = geom.DistanceToPoint(a, b, coordinates[k])
 		if dist >= offset {
 			index, offset = k, dist
 		}
