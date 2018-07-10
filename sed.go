@@ -1,10 +1,9 @@
 package offset
 
 import (
-	"math"
+	"github.com/intdxdt/math"
 	"github.com/intdxdt/vect"
 	"github.com/intdxdt/geom"
-	"github.com/intdxdt/cart"
 )
 
 //@formatter:off
@@ -26,7 +25,7 @@ func MaxSEDOffset(coordinates []*geom.Point) (int, float64) {
 
 	var v = vect.NewVector(a, b)
 	var mij = v.Magnitude()
-	var fb = cart.Direction(v[geom.X], v[geom.Y])
+	var fb = direction(v[geom.X], v[geom.Y])
 	var vx, vy = math.Cos(fb), math.Sin(fb)
 	var dt = bt - at
 
@@ -43,4 +42,13 @@ func MaxSEDOffset(coordinates []*geom.Point) (int, float64) {
 		}
 	}
 	return index, offset
+}
+
+//Dir computes direction in radians - counter clockwise from x-axis.
+func direction(x, y float64) float64 {
+	var d = math.Atan2(y, x)
+	if d < 0 {
+		d += math.Tau
+	}
+	return d
 }
