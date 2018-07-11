@@ -8,7 +8,7 @@ import (
 
 //@formatter:off
 //computes Synchronized Euclidean Distance
-func MaxSEDOffset(coordinates []*geom.Point) (int, float64) {
+func MaxSEDOffset(coordinates []geom.Point) (int, float64) {
 
 	var n = len(coordinates) - 1
 	var index, offset = n, 0.0
@@ -30,7 +30,7 @@ func MaxSEDOffset(coordinates []*geom.Point) (int, float64) {
 	var dt = bt - at
 
 	for k := 1; k < n; k++ { //exclusive range between 0 < k < n
-		pt = coordinates[k]
+		pt = &coordinates[k]
 		ptx, pty, ptt = pt[geom.X], pt[geom.Y], pt[geom.Z]
 
 		m = (mij / dt) * (ptt - at)
