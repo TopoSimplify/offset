@@ -6,10 +6,19 @@ import (
 	"github.com/intdxdt/geom"
 )
 
+//Maximum SED offset distance
+func MaxSEDOffset(coordinates geom.Coords) (int, float64) {
+	return maxSEDOffset(coordinates, hypot)
+}
+
+//Square Maximum SED offset distance
+func SqureMaxSEDOffset(coordinates geom.Coords) (int, float64) {
+	return maxSEDOffset(coordinates, squareHypot)
+}
+
 //@formatter:off
 //computes Synchronized Euclidean Distance
-func MaxSEDOffset(coordinates geom.Coords) (int, float64) {
-
+func maxSEDOffset(coordinates geom.Coords, hypotFn func(float64, float64) float64) (int, float64) {
 	var n = coordinates.Len() - 1
 	var index, offset = n, 0.0
 	if n <= 1 {
@@ -20,8 +29,8 @@ func MaxSEDOffset(coordinates geom.Coords) (int, float64) {
 	var dist, m, ptx, pty, ptt, px, py float64
 
 	var a, b = coordinates.Pt(0), coordinates.Pt(n)
-	var ax, ay  = a[geom.X], a[geom.Y]
-	var at , bt = a[geom.Z], b[geom.Z]
+	var ax, ay = a[geom.X], a[geom.Y]
+	var at, bt = a[geom.Z], b[geom.Z]
 
 	var v = vect.NewVector(*a, *b)
 	var mij = v.Magnitude()
@@ -34,8 +43,8 @@ func MaxSEDOffset(coordinates geom.Coords) (int, float64) {
 		ptx, pty, ptt = pt[geom.X], pt[geom.Y], pt[geom.Z]
 
 		m = (mij / dt) * (ptt - at)
-		px, py = ax + (m * vx), ay + (m * vy)
-		dist = math.Hypot(ptx - px, pty - py)
+		px, py = ax+(m*vx), ay+(m*vy)
+		dist = hypotFn(ptx-px, pty-py)
 
 		if dist >= offset {
 			index, offset = k, dist
@@ -51,4 +60,25 @@ func direction(x, y float64) float64 {
 		d += math.Tau
 	}
 	return d
+}
+
+func squareHypot(p, q float64) float64 {
+	return (p * p) + (q * q)
+}
+
+func hypot(p, q float64) float64 {
+	if p < 0 {
+		p = -p
+	}
+	if q < 0 {
+		q = -q
+	}
+	if p < q {
+		p, q = q, p
+	}
+	if p == 0 {
+		return 0
+	}
+	q = q / p
+	return p * math.Sqrt(1+q*q)
 }
