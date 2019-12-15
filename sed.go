@@ -1,9 +1,9 @@
 package offset
 
 import (
+	"github.com/intdxdt/geom"
 	"github.com/intdxdt/math"
 	"github.com/intdxdt/vect"
-	"github.com/intdxdt/geom"
 )
 
 //Maximum SED offset distance
