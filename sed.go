@@ -6,18 +6,17 @@ import (
 	"github.com/intdxdt/vect"
 )
 
-//Maximum SED offset distance
+//MaxSEDOffset - computes maximum SED offset distance
 func MaxSEDOffset(coordinates geom.Coords) (int, float64) {
 	return maxSEDOffset(coordinates, hypot)
 }
 
-//Square Maximum SED offset distance
+//SqureMaxSEDOffset - computes square maximum SED offset distance
 func SqureMaxSEDOffset(coordinates geom.Coords) (int, float64) {
 	return maxSEDOffset(coordinates, squareHypot)
 }
 
-//@formatter:off
-//computes Synchronized Euclidean Distance
+//maxSEDOffset - computes Synchronized Euclidean Distance
 func maxSEDOffset(coordinates geom.Coords, hypotFn func(float64, float64) float64) (int, float64) {
 	var n = coordinates.Len() - 1
 	var index, offset = n, 0.0
@@ -53,7 +52,7 @@ func maxSEDOffset(coordinates geom.Coords, hypotFn func(float64, float64) float6
 	return index, offset
 }
 
-//Dir computes direction in radians - counter clockwise from x-axis.
+//direction - computes direction in radians - counter clockwise from x-axis.
 func direction(x, y float64) float64 {
 	var d = math.Atan2(y, x)
 	if d < 0 {
@@ -62,10 +61,12 @@ func direction(x, y float64) float64 {
 	return d
 }
 
+//squareHypot - square distance
 func squareHypot(p, q float64) float64 {
 	return (p * p) + (q * q)
 }
 
+//hypot  - distance
 func hypot(p, q float64) float64 {
 	if p < 0 {
 		p = -p

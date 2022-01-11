@@ -9,12 +9,14 @@ type EpsilonDecomposition struct {
 	Relation func(float64) bool
 }
 
-//Maximum offset of intermediate vertices from segment formed by endpoints
+//MaxOffset - computes maximum offset of intermediate vertices from
+//segment formed by endpoints
 func MaxOffset(coordinates geom.Coords) (int, float64) {
 	return maxOffset(coordinates, geom.DistanceToPoint)
 }
 
-//Square maximum offset of intermediate vertices from segment formed by endpoints
+//SquareMaxOffset computes maximum offset of intermediate vertices from segment
+//formed by endpoints
 func SquareMaxOffset(coordinates geom.Coords) (int, float64) {
 	return maxOffset(coordinates, geom.SquareDistanceToPoint)
 }
